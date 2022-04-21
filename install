@@ -20,7 +20,7 @@ if uname -m | grep -q 'x86' ;then
   error "Pi-Apps is not not supported on non-arm processor architectures like amd64 and i386. You may be interested in Pi-Apps x86, a unofficial fork of Pi-Apps for x64 and x86 systems: https://github.com/Pi-Apps-Recreates/pi-apps-x86"
 fi
 
-sudo apt update || error "The command 'sudo apt update' failed. Before Pi-Apps will work, you must fix your apt package-management system."
+pacman -Syu || error "The command 'pacman -Syu' failed. Before Pi-Apps will work, you must fix your pacman package-management system."
 
 #install dependencies
 dependencies='yad curl wget aria2 lsb-release apt-utils imagemagick bc librsvg2-bin locales shellcheck git'
