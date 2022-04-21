@@ -13,7 +13,7 @@ if [[ "$(id -u)" == 0 ]]; then
 fi
 
 #ensure debian
-command -v apt >/dev/null || error "apt: command not found. Most likely this system is not running Debian."
+command -v pacman >/dev/null || error "Pacman: command not found. Most likely this system is not running Arch or Manjaro."
 
 #Ensure running arm processor
 if uname -m | grep -q 'x86' ;then
@@ -25,8 +25,8 @@ pacman -Syu || error "The command 'pacman -Syu' failed. Before Pi-Apps will work
 #install dependencies
 dependencies='yad curl wget aria2 lsb-release apt-utils imagemagick bc librsvg2-bin locales shellcheck git'
 ## Install dependencies if necessary
-if ! dpkg -s $dependencies >/dev/null 2>&1; then
-  sudo apt install $dependencies -y -f --no-install-recommends
+if ! pacman -Qi $dependencies >/dev/null 2>&1; then
+  sudo Pacman -S $dependencies
 fi
 
 #remove annoying "YAD icon browser" launcher
@@ -40,20 +40,14 @@ if [ -z "$DIRECTORY" ] || [ "$DIRECTORY" == "$HOME" ] || [ "$DIRECTORY" == bash 
   #if directory does not exist, download it
   if [ ! -d "$DIRECTORY" ];then
     echo "Downloading Pi-Apps..."
-    output="$(git clone --depth 1 https://github.com/Botspot/pi-apps "$DIRECTORY" 2>&1)"
+    output="$(git clone --depth 1 https://github.com/D2Lx0wse/pi-apps-manjaro "$DIRECTORY" 2>&1)"
     if [ ! -d "$DIRECTORY" ];then
       error "Pi-Apps download failed!\ngit clone output was: $output"
     fi
   fi
 fi #Past this point, DIRECTORY variable populated with valid pi-apps directory
 
-#if chromeOS, install lxterminal
-if command -v garcon-terminal-handler >/dev/null ;then
-  echo "In order to install apps on chromeOS, a working terminal emulator is required.
-Installing lxterminal in 10 seconds... (press Ctrl+C to cancel)"
-  sleep 10
-  sudo apt install -yf lxterminal || error "Failed to install lxterminal on chromeOS!"
-fi
+
 
 #menu button
 if [ ! -f ~/.local/share/applications/pi-apps.desktop ];then
