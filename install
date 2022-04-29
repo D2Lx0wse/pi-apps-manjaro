@@ -26,7 +26,7 @@ pacman -Syu || error "The command 'pacman -Syu' failed. Before Pi-Apps will work
 dependencies='yad curl wget aria2 lsb-release apt-utils imagemagick bc librsvg2-bin locales shellcheck git'
 ## Install dependencies if necessary
 if ! pacman -Qi $dependencies >/dev/null 2>&1; then
-  sudo Pacman -S $dependencies
+  sudo pacman -S $dependencies --noconfirm
 fi
 
 #remove annoying "YAD icon browser" launcher
